@@ -1,0 +1,21 @@
+<?php
+
+$orderdetailid=$_POST['orderdetailid'];
+$response = array();
+require '../db.php';
+$ckdishstatus=  mysqli_query($conn,"select * from orderdetails where id='$orderdetailid' and status='0'");
+if(mysqli_num_rows($ckdishstatus)>0)
+{
+$rowdishstatus=  mysqli_fetch_row($ckdishstatus);
+$odid=$rowdishstatus[0];
+mysqli_query($conn,"DELETE FROM orderdetails where id='$orderdetailid'");
+
+   $response["success"] = 0;
+    $response["message"] = "Dish deleted";
+}
+ else {
+     $response["failed"] = 1;
+    $response["message"] = "Not allow delete Dish";
+}
+
+ echo json_encode($response);
